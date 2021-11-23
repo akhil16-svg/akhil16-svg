@@ -1,7 +1,8 @@
 - 👋 Hi, I’m @akhil16-svg
-- 👀 I’m interested in Android Development and Augmented Reality.
-- 🌱 I’m currently learning AI ML, Android development, 
-- 💞️ I look forward to collaborate on projects on Android application.
+- 👀 I’m interested in Android Development, Augmented Reality, Machine Learning
+- 🌱 Currently learning AI ML, Android development 
+- ✨ Python, Java, Kotlin, Android SDK
+- �  I Look forward to collaborate on projects regarding Android application.
 - 📫 You can reach me --> pingleakhil12@gmail.com 
 
 <!---
