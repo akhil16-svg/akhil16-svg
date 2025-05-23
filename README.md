@@ -2,7 +2,6 @@
 - 👀 I’m interested in Android Development, Augmented Reality, Machine Learning
 - 🌱 Currently learning AI ML, Android development 
 - ✨ Python, Java, Kotlin, Android SDK
-- �  I Look forward to collaborate on projects regarding Android application.
 - 📫 You can reach me --> pingleakhil12@gmail.com 
 
 <!---
