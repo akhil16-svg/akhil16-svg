@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-danger {
+            background: #ff4757;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .input, .textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+
+        .textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .input:focus, .textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .flashcard {
+            background: #f8f9fa;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .flashcard:hover {
+            transform: scale(1.02);
+        }
+
+        .flashcard-text {
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+        }
+
+        .flashcard-hint {
+            margin-top: 20px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .quality-btns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .quality-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quality-btn.again { background: #ff4757; color: white; }
+        .quality-btn.hard { background: #ffa502; color: white; }
+        .quality-btn.good { background: #2ed573; color: white; }
+        .quality-btn.easy { background: #1e90ff; color: white; }
+
+        .card-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .card-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .card-question {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .card-answer {
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Simple Flashcards</h1>
+            <p>Spaced Repetition Learning</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav">
+            <button class="btn btn-primary" onclick="showView('dashboard')">Dashboard</button>
+            <button class="btn btn-primary" onclick="showView('study')">Study</button>
+            <button class="btn btn-primary" onclick="showView('add')">Add Card</button>
+            <button class="btn btn-secondary" onclick="seedData()">Add Samples</button>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view">
+            <div class="card">
+                <h2 style="margin-bottom: 20px;">Statistics</h2>
+                <div class="stats" id="stats"></div>
+            </div>
+
+            <div class="card">
+                <h2 style="margin-bottom: 20px;">All Cards</h2>
+                <div class="card-list" id="card-list"></div>
+            </div>
+        </div>
+
+        <!-- Study View -->
+        <div id="study-view" class="view hidden">
+            <div class="card">
+                <h2 style="margin-bottom: 20px; text-align: center;">Study Session</h2>
+                <div id="study-content"></div>
+            </div>
+        </div>
+
+        <!-- Add Card View -->
+        <div id="add-view" class="view hidden">
+            <div class="card">
+                <h2 style="margin-bottom: 20px;">Add New Card</h2>
+                <div id="add-message"></div>
+                <textarea class="textarea" id="question" placeholder="Question"></textarea>
+                <textarea class="textarea" id="answer" placeholder="Answer"></textarea>
+                <button class="btn btn-primary" onclick="addCard()">Create Card</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== STATE ====================
+        let currentView = 'dashboard';
+        let studyCards = [];
+        let currentCardIndex = 0;
+        let showingAnswer = false;
+
+        // ==================== API CALLS ====================
+        async function api(endpoint, options = {}) {
+            const response = await fetch(`/api${endpoint}`, options);
+            if (!response.ok) throw new Error('API request failed');
+            return response.json();
+        }
+
+        // ==================== VIEWS ====================
+        function showView(view) {
+            currentView = view;
+            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+            document.getElementById(`${view}-view`).classList.remove('hidden');
+            
+            if (view === 'dashboard') loadDashboard();
+            if (view === 'study') loadStudy();
+            if (view === 'add') clearAddForm();
+        }
+
+        // ==================== DASHBOARD ====================
+        async function loadDashboard() {
+            try {
+                const [stats, cards] = await Promise.all([
+                    api('/stats'),
+                    api('/cards')
+                ]);
+                
+                renderStats(stats);
+                renderCards(cards);
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        function renderStats(stats) {
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-box">
+                    <div class="stat-value">${stats.total_cards}</div>
+                    <div class="stat-label">Total Cards</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${stats.due_cards}</div>
+                    <div class="stat-label">Due for Review</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${stats.reviewed_cards}</div>
+                    <div class="stat-label">Reviewed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${stats.mastered_cards}</div>
+                    <div class="stat-label">Mastered</div>
+                </div>
+            `;
+        }
+
+        function renderCards(cards) {
+            const container = document.getElementById('card-list');
+            
+            if (cards.length === 0) {
+                container.innerHTML = `
+                    <div class="empty">
+                        <div class="empty-icon">📚</div>
+                        <p>No flashcards yet! Add some to get started.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = cards.map(card => `
+                <div class="card-item">
+                    <div class="card-question">Q: ${card.question}</div>
+                    <div class="card-answer">A: ${card.answer}</div>
+                    <div class="card-meta">
+                        <span>Reviews: ${card.repetitions} | Interval: ${card.interval}d</span>
+                        <button class="btn btn-danger" onclick="deleteCard(${card.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteCard(id) {
+            if (!confirm('Delete this card?')) return;
+            
+            try {
+                await api(`/cards/${id}`, { method: 'DELETE' });
+                loadDashboard();
+            } catch (error) {
+                alert('Failed to delete card');
+            }
+        }
+
+        // ==================== STUDY ====================
+        async function loadStudy() {
+            try {
+                studyCards = await api('/cards/due');
+                currentCardIndex = 0;
+                showingAnswer = false;
+                
+                if (studyCards.length === 0) {
+                    document.getElementById('study-content').innerHTML = `
+                        <div class="empty">
+                            <div class="empty-icon">🎉</div>
+                            <h3>No cards due!</h3>
+                            <p>Come back later or add more cards.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                renderStudyCard();
+            } catch (error) {
+                console.error('Error loading study:', error);
+            }
+        }
+
+        function renderStudyCard() {
+            const card = studyCards[currentCardIndex];
+            const progress = `Card ${currentCardIndex + 1} of ${studyCards.length}`;
+            
+            document.getElementById('study-content').innerHTML = `
+                <p style="text-align: center; color: #999; margin-bottom: 20px;">${progress}</p>
+                <div class="flashcard" onclick="flipCard()">
+                    <div class="flashcard-text">${showingAnswer ? card.answer : card.question}</div>
+                    <div class="flashcard-hint">${showingAnswer ? 'Question was on front' : 'Click to flip'}</div>
+                </div>
+                ${showingAnswer ? renderQualityButtons() : ''}
+            `;
+        }
+
+        function flipCard() {
+            showingAnswer = !showingAnswer;
+            renderStudyCard();
+        }
+
+        function renderQualityButtons() {
+            return `
+                <div class="quality-btns">
+                    <button class="quality-btn again" onclick="rateCard(0)">Again<br><small>&lt;1d</small></button>
+                    <button class="quality-btn hard" onclick="rateCard(3)">Hard<br><small>~3d</small></button>
+                    <button class="quality-btn good" onclick="rateCard(4)">Good<br><small>~7d</small></button>
+                    <button class="quality-btn easy" onclick="rateCard(5)">Easy<br><small>~14d</small></button>
+                </div>
+            `;
+        }
+
+        async function rateCard(quality) {
+            const card = studyCards[currentCardIndex];
+            
+            try {
+                await api(`/cards/${card.id}/review`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ quality })
+                });
+                
+                // Move to next card
+                currentCardIndex++;
+                showingAnswer = false;
+                
+                if (currentCardIndex >= studyCards.length) {
+                    document.getElementById('study-content').innerHTML = `
+                        <div class="empty">
+                            <div class="empty-icon">✅</div>
+                            <h3>Session Complete!</h3>
+                            <p>Great job! You've reviewed all due cards.</p>
+                        </div>
+                    `;
+                } else {
+                    renderStudyCard();
+                }
+            } catch (error) {
+                alert('Failed to record review');
+            }
+        }
+
+        // ==================== ADD CARD ====================
+        function clearAddForm() {
+            document.getElementById('question').value = '';
+            document.getElementById('answer').value = '';
+            document.getElementById('add-message').innerHTML = '';
+        }
+
+        async function addCard() {
+            const question = document.getElementById('question').value.trim();
+            const answer = document.getElementById('answer').value.trim();
+            const messageDiv = document.getElementById('add-message');
+            
+            if (!question || !answer) {
+                messageDiv.innerHTML = '<div class="message error">Please fill in both fields</div>';
+                return;
+            }
+            
+            try {
+                await api('/cards', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question, answer })
+                });
+                
+                messageDiv.innerHTML = '<div class="message success">Card created successfully!</div>';
+                clearAddForm();
+                
+                setTimeout(() => showView('dashboard'), 1000);
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="message error">Failed to create card</div>';
+            }
+        }
+
+        // ==================== SEED DATA ====================
+        async function seedData() {
+            try {
+                const result = await api('/seed', { method: 'POST' });
+                alert(result.message);
+                loadDashboard();
+            } catch (error) {
+                alert('Failed to seed data');
+            }
+        }
+
+        // ==================== INIT ====================
+        loadDashboard();
+    </script>
+</body>
+</html>
