@@ -1,0 +1,178 @@
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    FLASHCARD APP EXECUTION DIAGRAM                            ║
+║                  How to Run Backend + Frontend Together                      ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  STEP 1: Open TWO Terminal Windows/Tabs                                    │
+│  (This is the KEY to success!)                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+
+        Terminal 1                              Terminal 2
+    ┌─────────────────┐                    ┌─────────────────┐
+    │   Backend       │                    │   Frontend      │
+    │   (Python)      │                    │   (React)       │
+    │   Port 5000     │                    │   Port 3000     │
+    └─────────────────┘                    └─────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  STEP 2: Start Backend FIRST (Terminal 1)                                  │
+└────────────────────────────────────────────────────────────────────────────┘
+
+    ┌─ TERMINAL 1 ───────────────────────────────────────────────────────┐
+    │ $ cd /workspace/flashcards/backend                                 │
+    │ $ source venv/bin/activate                                         │
+    │ $ python app.py                                                    │
+    │                                                                    │
+    │ ✅ Expected Output:                                                │
+    │    * Running on http://127.0.0.1:5000                             │
+    │    * Press CTRL+C to quit                                         │
+    │                                                                    │
+    │ ⚠️  KEEP THIS TERMINAL OPEN AND RUNNING!                          │
+    └────────────────────────────────────────────────────────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  STEP 3: Start Frontend SECOND (Terminal 2)                                │
+└────────────────────────────────────────────────────────────────────────────┘
+
+    ┌─ TERMINAL 2 ───────────────────────────────────────────────────────┐
+    │ $ cd /workspace/flashcards/frontend                                │
+    │ $ npm run dev                                                      │
+    │                                                                    │
+    │ ✅ Expected Output:                                                │
+    │    Local: http://localhost:3000/                                  │
+    │    ready in 324 ms                                                │
+    │                                                                    │
+    │ ⚠️  KEEP THIS TERMINAL OPEN TOO!                                  │
+    └────────────────────────────────────────────────────────────────────┘
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│  STEP 4: Open Browser                                                      │
+└────────────────────────────────────────────────────────────────────────────┘
+
+    ┌─ BROWSER ──────────────────────────────────────────────────────────┐
+    │                                                                    │
+    │  🌐 URL: http://localhost:3000                                    │
+    │                                                                    │
+    │  ✅ You should see:                                               │
+    │     • Beautiful purple gradient background                        │
+    │     • "🧠 Flashcards" in navbar                                   │
+    │     • Dashboard with stats                                        │
+    │     • No errors in console (F12)                                  │
+    │                                                                    │
+    └────────────────────────────────────────────────────────────────────┘
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                         WHAT'S HAPPENING?                                  ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    Browser (localhost:3000)
+         │
+         │ User clicks "Add Card"
+         │
+         ▼
+    React Frontend
+         │
+         │ fetch('http://localhost:5000/api/cards', {...})
+         │
+         ▼
+    Flask Backend (localhost:5000)
+         │
+         │ Process request
+         │
+         ▼
+    SQLite Database (flashcards.db)
+         │
+         │ Save data
+         │
+         ▼
+    Response back to Frontend
+         │
+         │ JSON data
+         │
+         ▼
+    Browser updates UI
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    COMMON MISTAKES TO AVOID                                ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+❌ MISTAKE 1: Starting frontend before backend
+   → Frontend can't connect, shows errors
+
+❌ MISTAKE 2: Using only ONE terminal
+   → Second server won't start, app incomplete
+
+❌ MISTAKE 3: Closing terminal after starting
+   → Server stops, app breaks immediately
+
+❌ MISTAKE 4: Not activating virtual environment
+   → Python can't find Flask, error occurs
+
+❌ MISTAKE 5: Wrong directory
+   → Commands fail, files not found
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                      QUICK TROUBLESHOOTING                                 ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+🔧 Problem: "Address already in use"
+   Solution: kill -9 $(lsof -ti:5000)
+
+🔧 Problem: "Connection refused"
+   Solution: Backend not running - start it!
+
+🔧 Problem: "Module not found"
+   Solution: Activate venv and install requirements
+
+🔧 Problem: Blank page
+   Solution: Check browser console, verify backend running
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                       SUCCESS CHECKLIST                                    ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+□ Terminal 1 shows: "Running on http://127.0.0.1:5000"
+□ Terminal 2 shows: "Local: http://localhost:3000/"
+□ Both terminals still open and running
+□ Browser shows flashcard app at localhost:3000
+□ Can navigate between Home/Study/Add pages
+□ No red errors in browser console (F12)
+□ Can create and view flashcards
+
+✅ All checked? → Your app is working perfectly!
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    EASIER WAY: USE THE SCRIPTS!                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    Terminal 1:                      Terminal 2:
+    ./start-backend.sh               ./start-frontend.sh
+
+    That's it! Scripts handle everything automatically.
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                     STOPPING THE APP                                       ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+    1. Go to Terminal 1 → Press Ctrl+C
+    2. Go to Terminal 2 → Press Ctrl+C
+    
+    Both servers stop cleanly.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                         YOU'RE ALL SET! 🚀
+═══════════════════════════════════════════════════════════════════════════════
+
