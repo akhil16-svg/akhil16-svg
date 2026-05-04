@@ -52,11 +52,8 @@
 
   <text x="92" y="122" fill="#F8FAFC" font-size="62" font-weight="800" font-family="Inter, Segoe UI, Arial, sans-serif">Akhilesh</text>
   <text x="94" y="163" fill="#BAE6FD" font-size="24" font-weight="600" font-family="Inter, Segoe UI, Arial, sans-serif">Python Backend Developer</text>
-<text x="94" y="195" fill="#BAE6FD" font-size="24" font-weight="600" font-family="Inter, Segoe UI, Arial, sans-serif">AWS Solutions Architect Associate</text>
-  <text x="94" y="202" fill="#D1FAE5" font-size="18" font-family="Inter, Segoe UI, Arial, sans-serif">REST APIs - Flask - Django - SQL - Docker - Kubernetes - Cloud Architecture</text>
-
-  <g font-family="Inter, Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">
-    <rect x="94" y="226" width="92" height="34" rx="10" fill="#2563EB"/>
+  <text x="94" y="195" fill="#BAE6FD" font-size="24" font-weight="600" font-family="Inter, Segoe UI, Arial, sans-serif">AWS Solutions Architect Associate</text>
+  <text x="94" y="232" fill="#D1FAE5" font-size="18" font-family="Inter, Segoe UI, Arial, sans-serif">REST APIs - Flask - Django - SQL - Docker - Kubernetes - Cloud Architecture</text>
     <text x="121" y="248" fill="white">Python</text>
     <rect x="198" y="226" width="76" height="34" rx="10" fill="#0F766E"/>
     <text x="220" y="248" fill="white">APIs</text>
