@@ -1,7 +1,3 @@
-<p align="center">
-  <img width="100%" alt="Akhilesh profile banner" src="./assets/profile-banner.svg">
-</p>
-
 <h1 align="center">Akhilesh</h1>
 
 <h3 align="center">Python Backend Developer | AWS Certified Solutions Architect - Associate</h3>
