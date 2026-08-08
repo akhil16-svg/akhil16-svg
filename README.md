@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./assets/profile.jpg" width="180" alt="Akhilesh Pingle" />
+  <!-- <img src="./assets/profile.jpg" width="180" alt="Akhilesh Pingle" /> -->
   <h1>Akhilesh Pingle</h1>
   <p><strong>AI Software Engineer · Python Backends · RAG & Agentic AI · AWS</strong></p>
   <p>I build production AI systems—from retrieval and orchestration to APIs, cloud infrastructure, deployment, and monitoring.</p>
